@@ -55,11 +55,6 @@ Use the `--help` option with any file to understand its usage:
 ```bash
 ./ex1.js --help
 ```
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ---
 
 Happy Coding!
