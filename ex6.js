@@ -6,9 +6,10 @@ var util = require("util");
 var path = require("path");
 var http = require("http");
 
-// var express = require("express");
+var express = require("express");
 var sqlite3 = require("sqlite3");
 
+var app = express();
 
 // ************************************
 
@@ -44,33 +45,47 @@ main();
 // ************************************
 
 function main() {
-	// TODO: define routes
-	//
-	// Hints:
-	//
-	// {
-	// 	match: /^\/(?:index\/?)?(?:[?#].*$)?$/,
-	// 	serve: "index.html",
-	// 	force: true,
-	// },
-	// {
-	// 	match: /^\/js\/.+$/,
-	// 	serve: "<% absPath %>",
-	// 	force: true,
-	// },
-	// {
-	// 	match: /^\/(?:[\w\d]+)(?:[\/?#].*$)?$/,
-	// 	serve: function onMatch(params) {
-	// 		return `${params.basename}.html`;
-	// 	},
-	// },
-	// {
-	// 	match: /[^]/,
-	// 	serve: "404.html",
-	// },
-
+	defineRoutes();
 	httpserv.listen(HTTP_PORT);
 	console.log(`Listening on http://localhost:${HTTP_PORT}...`);
+}
+
+function defineRoutes(){
+	app.get('/get-records',async(req,res)=>{
+		await delay(1000);
+		let records = await getAllRecords();
+		res.writeHead(200,{
+			"Content-Type":"application/json",
+			"cache-control":"no-cache"
+		});
+		res.end(JSON.stringify(records));
+	});
+
+	app.use((req,res,next)=>{
+		if (/^\/(?:index\/?)?(?:[?#].*$)?$/.test(req.url)) {
+			req.url = "/index.html";
+		}
+		else if (/^\/js\/.+$/.test(req.url)) {
+			next();
+			return;
+		}
+		else if (/^\/(?:[\w\d]+)(?:[\/?#].*$)?$/.test(req.url)) {
+			let [,basename] = req.url.match(/^\/([\w\d]+)(?:[\/?#].*$)?$/);
+			req.url = `${basename}.html`;
+		}
+		else {
+			req.url = "/404.html";
+		}
+
+
+		next();
+	});
+	app.use(express.static(WEB_PATH,{
+		maxAge:100,
+		setHeaders:function setHeaders(res){
+			res.setHeader("server","Node Workshop: ex6")
+		}
+	}));
 }
 
 // *************************

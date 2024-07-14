@@ -27,11 +27,11 @@ To get a list of available commands and usage instructions for each file, you ca
 ## File Descriptions
 
 - **ex1.js**: Introduction to CLI programming in Node.js.
-- **ex2.js**: Demonstrates file system access.
+- **ex2.js**: Example of using streams in Node.js.Demonstrates file system access and file compression.
 - **ex3.js**: Covers asynchronous programming in Node.js.
-- **ex4.js**: Example of using streams in Node.js.
+- **ex4.js**: Example of database persistence with Node.js(STORING DATABASE and DATABASE SCHEMA).
 - **ex5.js**: Demonstrates setting up an HTTP server and routing.
-- **ex6.js**: Example of database persistence with Node.js.
+- **ex6.js**: Setting ExpressJs server.
 - **ex7.js**: Introduction to child processes in Node.js.
 - **ex7-child.js**: Supplementary file for `ex7.js`.
 - **local-cmd.js**: Local command example.
